@@ -49,29 +49,6 @@ class _NewsPageState extends State<NewsPage> {
     });
   }
 
-  Future<void> _onOpenPressed(
-      {required String url,
-      required PresentationStyle presentationStyle}) async {
-    final webview = FlutterMacOSWebView(
-      onOpen: () => log('Opened'),
-      onClose: () => log('Closed'),
-      onPageStarted: (url) => log('Page started: $url'),
-      onPageFinished: (url) => log('Page finished: $url'),
-      onWebResourceError: (err) {
-        log(
-          'Error: ${err.errorCode}, ${err.errorType}, ${err.domain}, ${err.description}',
-        );
-      },
-    );
-    await webview.open(
-      url: url,
-      presentationStyle: presentationStyle,
-      size: const Size(800.0, 800.0),
-      userAgent:
-          'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return MacosScaffold(
@@ -139,8 +116,7 @@ class _NewsPageState extends State<NewsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 18),
+                          padding: const EdgeInsets.only(top: 20, left: 18),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -168,7 +144,7 @@ class _NewsPageState extends State<NewsPage> {
                         if (newsHeadlines != null)
                           Wrap(
                             children: [
-                              NewsTile(
+                              NewsTile2(
                                 imgUrl:
                                     newsHeadlines?.articles.first.urlToImage ??
                                         '',
@@ -183,9 +159,9 @@ class _NewsPageState extends State<NewsPage> {
                                     newsHeadlines?.articles.first.publishedAt ??
                                         DateTime.now(),
                                 height: 500,
-                                width: 900,
+                                width: MediaQuery.of(context).size.width,
                                 onTap: () {
-                                  _onOpenPressed(
+                                  newsCubit.onOpenPressed(
                                       presentationStyle:
                                           PresentationStyle.sheet,
                                       url: newsHeadlines?.articles.first.url ??
@@ -240,7 +216,7 @@ class _NewsPageState extends State<NewsPage> {
                                       height: 550,
                                       width: 300,
                                       onTap: () {
-                                        _onOpenPressed(
+                                        newsCubit.onOpenPressed(
                                             presentationStyle:
                                                 PresentationStyle.modal,
                                             url: newsHeadlines
