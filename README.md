@@ -2,6 +2,7 @@
 
 A News App Built for MacOs using dart & flutter.
 
+Api from- https://newsapi.org/
 
 for dmg file creation-
 https://retroportalstudio.medium.com/creating-dmg-file-for-flutter-macos-apps-e448ff1cb0f
